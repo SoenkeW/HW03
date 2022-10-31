@@ -1,44 +1,48 @@
-public class Elevator_State
-{
-    public String moving_up ="Moving Up";
-    public String moving_down = "Moving Down";
-    public String arrive_to_floor = "Arrive to Floor";
-    public String idle= "Idle";
-    public static String current_State;
-    public String arrived= "Arrived to Destination!";
+public class Elevator_State {
+    public final String STATE_MOVING_UP = "Moving Up";
+    public final String STATE_MOVING_DOWN = "Moving Down";
+    public final String STATE_ARRIVE_TO_FLOOR = "Arrive to Floor";
+    public final String STATE_IDLE = "Idle";
+    public final String STATE_EXIT = "exit";
 
+    public final String STATE_ARRIVED = "Arrived to Destination!";
+    public String currentState = STATE_IDLE;
+    int currentFloor = 0;
 
+    public Elevator_State(int startFloor) {
+        currentFloor = startFloor;
+    }
 
+    public void idle(int destination_floor) {
+        while (currentFloor < destination_floor) {
+            //State.current_State = State.moving_up
+            currentState = STATE_MOVING_UP;
+            printState();
+            currentFloor++;
+        }//while moving up
 
-    public static void idle(int current_floor, int destination_floor){
-        if(current_floor == destination_floor){
+        while (currentFloor > destination_floor) {
+            //State.current_State = State.moving_up
+            currentState = STATE_MOVING_DOWN;
+            printState();
+            currentFloor--;
+        }//while moving down
+
+        if (currentFloor == destination_floor) {
             //State.current_State= State.Arrive_to_Floor
-            current_State= "Arrive_to_Floor";
-            System.out.println(current_State);
-            exit();
+            currentState = STATE_ARRIVE_TO_FLOOR;
+            printState();
         }
-        while(current_floor<destination_floor){
-            //State.current_State = State.moving_up
-           current_State= "moving_up";
-            System.out.println(current_State);
-           current_floor++;
-        }
-
-
-        while(current_floor>destination_floor){
-            //State.current_State = State.moving_up
-            current_State= "moving_down";
-            System.out.println(current_State);
-            current_floor--;
-        }
-        exit();
-
     }
-    public static void exit(){
+
+    private void printState() {
+        System.out.println(String.format("state: '%s' floor: %d", currentState, currentFloor));
+    }
+
+    public void exit() {
         //State.current_State= State.arrived
-        current_State= "Exit";
+        currentState = STATE_EXIT;
     }
-
 
 
 }
